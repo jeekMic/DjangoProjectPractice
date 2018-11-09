@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% regroup  myfilters as mymod %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for value in Values %}
+    {% if value|mymod %}
+        {{value}}是偶数
+    {% else %}
+        {{value}}是奇数数
+    {% endif %}
+{% endfor%}
+</body>
+</html>

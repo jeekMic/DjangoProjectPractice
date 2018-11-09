@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>当前地区</h1>
+{{area.atitle}}<br>
+<h1>父级地区</h1>
+{{parent.atitle}}<br>
+<br>
+{% for child in children %}
+    <li>{{child.atitle}}</li>
+{% endfor %}
+</body>
+</html>

@@ -1,0 +1,68 @@
+< !DOCTYPE
+html >
+< html
+lang = "en" >
+< head >
+< meta
+charset = "UTF-8" >
+< title > ajax登陆页面 < / title >
+< script
+src = "/static/js/jquery-1.12.4.min.js" > < / script >
+< style >
+# errmsg{
+display: none;
+color: red;
+}
+/ *没有美化页面，只是简单效果 * /
+
+          < / style >
+              < script >
+$(function() {
+$('#btnLogin').click(function()
+{
+    username = $('#username').val()
+password = $('#password').val()
+{
+# 发起校验用户名请求，请求的地址是/login_ajax_check/#}
+$.ajax({
+           'url': '/login_ajax_check/?username=' + username + '&password=' + password,
+           'type': 'get', // 请求提交的方式get / post
+'dataType': 'json',
+}).done(function(data)
+{ // 回调函数获取的data就是view返回的json数据
+{  # alert(data.res)#}
+if (data.res == 0)
+{
+$('#errmsg').show().html('用户名或密码错误') // jQuery动态添加网页内容
+} else {
+    location.href = '/index/' // 验证成功登录首页
+}
+}).fail(function()
+{
+    alert('服务器请求成功')
+})
+})
+})
+< / script >
+    < / head >
+        < body >
+        < div
+
+
+class ="div1" >
+
+< label > 用户名: < / label > < input
+type = "text"
+id = "username" > < br >
+< label > 密码: < / label > < input
+type = "password"
+id = "password" > < br >
+< div
+id = "errmsg" > < / div >
+< input
+type = "button"
+value = "登陆"
+id = "btnLogin" >
+< / div >
+< / body >
+< / html >

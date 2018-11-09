@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/book/create">增加</a>
+图书列表如下:<br>
+<ul>
+    {% for book in books%}
+    <li>
+        <a href="/book/{{book.id}}">{{book.btitle}}</a> <a href="/book/delete{{book.id}}">删除</a>
+    </li>
+    {%endfor%}
+</ul>
+</body>
+</html>

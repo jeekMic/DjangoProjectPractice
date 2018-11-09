@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>英雄详细页面</title>
+</head>
+<body>
+图书:<br>
+{{book}} <br>
+英雄:<br>
+{% for hero in heros%}
+    <li>{{hero.hname}}</li><br>
+{% endfor%}
+
+</body>
+</html>
