@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect, render_to_response
 from io import StringIO, BytesIO
 
 # Create your views here.
+from django.urls import reverse
+from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -115,4 +117,18 @@ def post_article(request):
 
 def myfilter(request):
     context = {"values":[1,2,3,4,5,6,7,8,9,10,11,12]}
-    return render(request,'mybook/myfilter.html', context)
+    return render(request, 'mybook/myfilter.html', context)
+
+
+def htmlescape(request):
+    context = {"content": '<h1>hello</h1>', 'test':'asgdhkashjdk'}
+    # context = {"content": '&lth1&gthello&lg/h1&gt'}
+    return render(request,'mybook/htmlescape.html',context)
+
+@cache_page(1)
+def staticfile(request):
+    return render(request,'mybook/staticfile.html',{})
+
+
+
+

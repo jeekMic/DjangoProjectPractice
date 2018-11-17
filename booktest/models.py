@@ -1,4 +1,5 @@
 from django.db import models
+
 # 设计和表对应的类
 
 # books class
@@ -83,9 +84,30 @@ class EmployeeDetailInfo(models.Model):
     employee_basic = models.OneToOneField('EmployeeBasicInfo', on_delete=models.CASCADE)
 
 class  AreaInfo(models.Model):
-    # the area name
-    atitle = models.CharField(max_length=20)
+    # the area name 添加verbose_name属性的时候，后台的标题就是这个
+    atitle = models.CharField(verbose_name='标题',max_length=20)
     aParent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
+
     # 自定义管理器对象
-    area_manager = models.Manager()
+    # area_manager = models.Manager()
+
+    def title(self):
+        return self.atitle
+    # 在类里面定义的方法都会成为列，但是要到 list_display中去写出来，才会在后台呈现
+    def mytitle(self):
+        return self.atitle
+    def aprent(self):
+        try:
+            return self.aParent.atitle
+        except :
+            print("出现错误")
+            return "中国"
+
+    title.admin_order_field = 'atitle'
+    title.short_description = "地区名称"
+    aprent.short_description = "上一级城市"
+
+class PicTest(models.Model):
+    # 上传图片
+    goods_pic = models.ImageField(upload_to='booktest')
 

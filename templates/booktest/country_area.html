@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> </title>
+    <script src="static/js/jquery-1.12.4.min.js"></script>
+    <script>
+        $(function(){
+            $.get('/prov',function(data){
+                //回调函数
+                //获取返回的json数据
+                res = data.data
+                //变量res数组 获取每一个元素,遍历
+                //$.each(res,function(index, item){
+                //})
+
+                for( i=0;i<res.length;i++){
+                id = res[i][0]
+                atitle = res[i][1]
+                //alert(atitle)
+                //option_str = '<option value="'+id+'">'+atitle+'</option>'
+                option_str = '<option value='+id+'>'+atitle+'</option>'
+                //向option中追加
+                $("#prov").append(option_str);
+                }
+
+            })
+            //绑定prov select的下来列表的chang事件
+            $('#prov').change(function(){
+                //发起一个ajax请求
+                provid = $(this).val()
+                $.get('/city'+provid,function(data){
+                //遍历添加到city下拉添加框中
+                    res = data.data
+                    //console.log(res)
+                    city = $('#city')
+                    $.each(res,function(index,item){
+                        id = item[0]
+                        atitle = item[1]
+                        option_str = '<option value='+id+'>'+atitle+'</option>'
+                        $("#city").append(option_str);
+                    })
+
+                })
+            })
+            $('#city').change(function(){
+            //发起一个ajax请求
+            cityid = $(this).val()
+            $.get('/dis'+cityid,function(data){
+            //遍历添加到dis的select中去
+            res = data.data
+            $.each(res,function(index,item){
+                id = item[0]
+                atitle = item[1]
+                option_str = '<option value='+id+'>'+atitle+'</option>'
+                $("#dis").append(option_str);
+            })
+            })
+
+            })
+
+
+        })
+    </script>
+</head>
+
+<body>
+<select name="" id="prov">
+    <option value="">---请选择省---</option>
+</select>
+<select name="" id="city">
+    <option value="">---请选择市---</option>
+</select>
+<select name="" id="dis">
+    <option value="">---请选择县---</option>
+</select>
+</body>
+</html>

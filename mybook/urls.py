@@ -12,7 +12,9 @@ urlpatterns = [
     path('verify_code/',views.verify_code),
     # fatie的页面
     path('post_article/', views.post_article),
-    path('myfilter/', views.myfilter)
+    path('myfilter/', views.myfilter),
+    path('htmlescape/', views.htmlescape),
+    path('staticfile/', views.staticfile),
 
 
 ]

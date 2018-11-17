@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+&lt h1 &gt <br>
+不转义<br>
+{{content}}<br>
+使用safe过滤器转义<br>
+{{content|safe}}<br>
+使用autoescape转义<br>
+{% autoescape off %}
+{{content}}
+{% endautoescape%}
+---------------------------<br>
+{{test|default:'&lth1&gt123&lt/h1&gt'}}
+</body>
+</html>

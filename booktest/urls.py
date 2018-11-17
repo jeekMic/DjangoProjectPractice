@@ -1,8 +1,9 @@
-from django.urls import path
+from django.urls import path,re_path
 from . import views
-
+app_name = 'booktest'
 urlpatterns = [
-    path('index/', views.index),
+    path('index/', views.index,name='index'),
+    path('ntest_reverse/', views.ntest_reverse),
     path('index2/', views.index2),
     path('index3/', views.query_book),
     path('login/', views.login),
@@ -16,4 +17,13 @@ urlpatterns = [
     path('book/create', views.create),
     path('book/delete<int:book_id>', views.delete),
     path('book/areas', views.areas),
+    path('', views.show_upload),
+    path('upload_handler', views.upload_handle),
+    re_path(r'show_areas(\d*)', views.show_areas),
+
+    path('country_area', views.country_area),
+
+    path('prov', views.prov),
+    re_path('city(\d*)', views.citxys),
+    re_path('dis(\d*)', views.diss),
 ]

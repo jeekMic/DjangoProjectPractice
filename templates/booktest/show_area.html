@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+   page_object_list返回包含当前页的数据返回集
+    {% for page in pages %}
+        <li>{{page.atitle}}</li>
+    {% endfor %}
+   <hr>    {% if pages.has_previous %}
+    <a href="/show_areas{{pindex}}">上一页</a>
+    {% endif%}
+{% for  pindex in pages.paginator.page_range%}
+
+    {% if pindex == pages.number %}
+        {{ pindex }}
+   {% else %}
+   <a href="/show_areas{{pindex}}">{{ pindex }}</a>
+   {% endif %}
+
+{%endfor%}
+    {% if pages.has_next %}
+    <a href="/show_areas{{pages.next_page_number}}">下一页</a>
+    {% endif%}
+
+
+
+
+</body>
+</html>

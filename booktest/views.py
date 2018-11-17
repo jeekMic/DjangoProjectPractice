@@ -1,11 +1,16 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
-from booktest.models import BookInfo,HeroInfo,AreaInfo
+from django.urls import reverse
+from django.core.paginator import Paginator
+from booktest.models import BookInfo, HeroInfo, AreaInfo, PicTest
 from datetime import datetime
 # Create your views here.
 
 # http://127.0.0.1:8000/index
+from mytest1 import settings
+
+
 def index(request, exception=None):
     return  my_render(request,'booktest/index.html', {})
 
@@ -125,4 +130,105 @@ def login_ajax_check(request):
         print("----failed")
         return JsonResponse({'res':0})
     # 返回接送数据
+#反向解析操作
+def ntest_reverse(request):
+    # 重定向
+    # return redirect('/index')
+    # url = reverse('booktest:index')
+    # return redirect(url)
 
+    # 重定向带参数
+
+    url = reverse('booktest:index', kwargs={'c':3,'d':5})
+    return redirect(url)
+
+# /show_upload 上传照片
+def show_upload(request):
+
+    return render(request,'booktest/upload_pic.html')
+
+def upload_handle(request):
+    # 上传的照片处理
+    # 1, 获取上传的照片
+    pic = request.FILES['pic']
+    # 2，创建一个文件
+    # pic.name 是照片的名字
+    # pic。chunks()是每次从内存中读取的一块内存
+    save_path = '%s/booktest/%s'%(settings.MEDIA_ROOT,pic.name)
+    with open(save_path,"wb") as f:
+        # 将上传的文件写到所创建的文件中
+        for content in pic.chunks():
+            f.write(content)
+    PicTest.objects.create(goods_pic="booktest/%s"%pic.name)
+    # 在数据库保存上传的记录
+    return HttpResponse("ok")
+
+def show_areas(request,book_id):
+    # 分页
+    # 1.查询出所有的省级地区
+    area = AreaInfo.objects.filter(aParent__isnull=True)
+    # 分页，每页显示6条数据
+    paginator = Paginator(area,6)
+
+    # 返回总页数
+    print(paginator.num_pages)
+    #返回页码的列表
+    print(paginator.page_range)
+    if book_id=='':
+        book_id = 1
+    else:
+        book_id = int(book_id)
+    # 获取第一页的数据
+    page = paginator.page(book_id)
+    # 当前页的页码
+    print("当前页码")
+    print(page.number)
+    '''
+    page.has_previous 判断当前页是否有上一页
+    page.has_next 判断当前页是否有下一页
+    page.previous_page_name 返回前一页的页码
+    page.next_page_number 返回下一页的页码
+    '''
+    # 2.使用模板
+    return render(request,'booktest/show_area.html',{'pages':page})
+
+
+def  country_area(request):
+    # 省市县选中案例
+    return render(request,'booktest/country_area.html')
+
+# prov
+def prov(request):
+    # 获取所有的省级地区
+    areas = AreaInfo.objects.filter(aParent__isnull=True)
+    # 将变量area拼接成json数据:
+    area_list = []
+    for area in areas:
+        area_list.append((area.id, area.atitle))
+    # 返回数据
+    return JsonResponse({'data':area_list})
+
+
+def citxys(request,pid):
+    #获取pid的下级地区的id
+    # area = AreaInfo.objects.get(id=pid)
+    areas = AreaInfo.objects.filter(aParent__id =pid)
+    areas_list = []
+    for area in areas:
+        areas_list.append((area.id,area.atitle))
+    # 返回数据
+    print("=================================")
+    print(areas_list)
+    return JsonResponse({'data':areas_list})
+
+
+def diss(request,pid):
+    #获取pid的下级地区
+    areas = AreaInfo.objects.filter(aParent__id=pid)
+    area_list = []
+    for area in areas:
+        area_list.append((area.id, area.atitle))
+    # 返回数据
+    print("=================================")
+    print(area_list)
+    return JsonResponse({'data': area_list})

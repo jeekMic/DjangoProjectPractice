@@ -35,9 +35,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'booktest',
     'booktest2',
-    'mybook'
+    'mybook',
+
 ]
 
 MIDDLEWARE = [
@@ -48,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'booktest.mymiddleware.BlockIPSMiddleware',
 ]
 
 ROOT_URLCONF = 'mytest1.urls'
@@ -63,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.static',
             ],
         },
     },
@@ -119,5 +124,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-# 设置静态文件保存的路径
+# 设置静态文件保存的路径 STATICFILES_DIRS 是通用的静态文件
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/')]
+
+# 上传文件保存的目录
+MEDIA_ROOT = os.path.join(BASE_DIR,'static/media')
